@@ -10,6 +10,7 @@ module.exports = {
       'plugin:@typescript-eslint/eslint-recommended',
       'plugin:@typescript-eslint/recommended',
       'plugin:jest/recommended',
-      'plugin:jest/style'
+      'plugin:jest/style',
+      'plugin:prettier/recommended'
     ],
   };
