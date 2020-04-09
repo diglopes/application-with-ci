@@ -37,7 +37,28 @@ export default class Service {
       return {
         error: true,
         statusCode: 500,
+        message: errors.errmsg || 'Not able to list items.',
         errors,
+      };
+    }
+  }
+
+  async insert(data: object): Promise<ServiceResponse | ServiceError> {
+    try {
+      const item = await this.model.create(data);
+      if (item) {
+        return {
+          error: false,
+          statusCode: 201,
+          data: item,
+        };
+      }
+    } catch (errors) {
+      return {
+        error: true,
+        statusCode: 500,
+        message: errors.errmsg || 'Not able to create item.',
+        errors: errors,
       };
     }
   }

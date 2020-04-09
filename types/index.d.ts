@@ -17,11 +17,12 @@ export interface ServiceResponse {
   error: boolean;
   statusCode: number;
   data: object;
-  total: number;
+  total?: number;
 }
 
 export interface ServiceError {
   error: boolean;
   statusCode: number;
+  message: string;
   errors: object;
 }
