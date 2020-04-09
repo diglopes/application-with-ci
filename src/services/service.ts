@@ -62,4 +62,22 @@ export default class Service {
       };
     }
   }
+
+  async update(id: string, data: object): Promise<ServiceResponse | ServiceError> {
+    try {
+      const item = await this.model.findByIdAndUpdate(id, data, { new: true });
+      return {
+        error: false,
+        statusCode: 202,
+        data: item,
+      };
+    } catch (errors) {
+      return {
+        error: true,
+        statusCode: 500,
+        message: errors.errmsg || 'Not able to create item.',
+        errors: errors,
+      };
+    }
+  }
 }
