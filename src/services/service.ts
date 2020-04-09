@@ -80,4 +80,30 @@ export default class Service {
       };
     }
   }
+
+  async delete(id: string): Promise<ServiceResponse | ServiceError> {
+    try {
+      const item = await this.model.findByIdAndDelete(id);
+      if (!item)
+        return {
+          error: true,
+          statusCode: 404,
+          message: 'item not found',
+        };
+
+      return {
+        error: false,
+        statusCode: 202,
+        data: item,
+        message: 'Item successfuly deleted',
+      };
+    } catch (errors) {
+      return {
+        error: true,
+        statusCode: 500,
+        message: errors.errmsg || 'Not able to create item.',
+        errors: errors,
+      };
+    }
+  }
 }

@@ -24,5 +24,5 @@ export interface ServiceError {
   error: boolean;
   statusCode: number;
   message: string;
-  errors: object;
+  errors?: object;
 }
