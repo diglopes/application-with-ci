@@ -1,15 +1,15 @@
 import mongoose, { Model, Document } from 'mongoose';
 import chalk from 'chalk';
-import { Query, ServiceResponse, ServiceError } from '../../types';
+import { Query, ServiceResponse, Service as IService, Toy } from '../../types';
 
-export default class Service {
+export default class Service implements IService {
   model: Model<Document>;
-
-  constructor() {
+  constructor(theModel: Model<Document>) {
+    this.model = theModel;
     this.getAll = this.getAll.bind(this);
   }
 
-  async getAll(query: Query): Promise<ServiceResponse | ServiceError> {
+  public async getAll(query: Query): Promise<ServiceResponse> {
     const { skip = 0, limit = 0 } = query;
 
     delete query.skip;
@@ -38,19 +38,20 @@ export default class Service {
         error: true,
         statusCode: 500,
         message: errors.errmsg || 'Not able to list items.',
-        errors,
+        data: errors,
       };
     }
   }
 
-  async insert(data: object): Promise<ServiceResponse | ServiceError> {
+  public async insert(data: Toy): Promise<ServiceResponse> {
     try {
       const item = await this.model.create(data);
       if (item) {
         return {
           error: false,
+          message: 'Resource created successfully',
           statusCode: 201,
-          data: item,
+          data: [item],
         };
       }
     } catch (errors) {
@@ -58,30 +59,30 @@ export default class Service {
         error: true,
         statusCode: 500,
         message: errors.errmsg || 'Not able to create item.',
-        errors: errors,
+        data: errors,
       };
     }
   }
 
-  async update(id: string, data: object): Promise<ServiceResponse | ServiceError> {
+  public async update(id: string, data: object): Promise<ServiceResponse> {
     try {
       const item = await this.model.findByIdAndUpdate(id, data, { new: true });
       return {
         error: false,
         statusCode: 202,
-        data: item,
+        data: [item],
       };
     } catch (errors) {
       return {
         error: true,
         statusCode: 500,
         message: errors.errmsg || 'Not able to create item.',
-        errors: errors,
+        data: errors,
       };
     }
   }
 
-  async delete(id: string): Promise<ServiceResponse | ServiceError> {
+  public async delete(id: string): Promise<ServiceResponse> {
     try {
       const item = await this.model.findByIdAndDelete(id);
       if (!item)
@@ -93,16 +94,16 @@ export default class Service {
 
       return {
         error: false,
-        statusCode: 202,
-        data: item,
-        message: 'Item successfuly deleted',
+        statusCode: 200,
+        data: [item],
+        message: 'Resource deleted successfully',
       };
     } catch (errors) {
       return {
         error: true,
         statusCode: 500,
         message: errors.errmsg || 'Not able to create item.',
-        errors: errors,
+        data: errors,
       };
     }
   }
