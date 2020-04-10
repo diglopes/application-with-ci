@@ -6,6 +6,9 @@ export default class Controller {
   constructor(service: IService) {
     this.service = service;
     this.getAll = this.getAll.bind(this);
+    this.insert = this.insert.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async getAll(req: Request, res: Response): Promise<Response> {
