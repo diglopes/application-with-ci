@@ -14,6 +14,8 @@
   "scripts": {
     "test": "jest --passWithNoTests",
     "test:staged": "npm test -- --findRelatedTests --silent",
+    "test:unit": "npm test -- -c jest.config.unit.js",
+    "test:integration": "npm test -- -c jest.config.integration.js",
     "dev:start": "clear; nodemon src/index.ts",
     "build": "tsc",
     "prod:start": "npm run build && node build/index.js"
@@ -23,6 +25,7 @@
     "@types/jest": "^25.2.1",
     "@types/mongoose-unique-validator": "^1.0.3",
     "@types/node": "^13.11.1",
+    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^6.8.0",
@@ -35,6 +38,7 @@
     "nodemon": "^2.0.3",
     "prettier": "^2.0.4",
     "sucrase": "^3.13.0",
+    "supertest": "^4.0.2",
     "ts-jest": "^25.3.1",
     "typescript": "^3.8.3"
   },
