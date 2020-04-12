@@ -1,15 +1,12 @@
 /* eslint jest/expect-expect: 0 */
 
+import mongoose from 'mongoose';
 import server from './server';
 import request from 'supertest';
-import mongoose from 'mongoose';
-import Toy from '../models/toy';
 
 describe('Routes', () => {
   afterAll(async () => {
-    const toy = new Toy();
-    const toyModel = toy.getInstance();
-    toyModel.deleteMany({});
+    mongoose.disconnect();
   });
 
   it('should create a resource', async () => {
@@ -20,9 +17,10 @@ describe('Routes', () => {
         description: 'A video game',
         minimumAge: 6,
       })
-      .expect(201)
-      .then(() => {
-        mongoose.disconnect();
-      });
+      .expect(201);
+  });
+
+  it('should get all items from resource', async () => {
+    await request(server).get('/api/toy').expect(200);
   });
 });
