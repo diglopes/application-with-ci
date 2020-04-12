@@ -15,7 +15,7 @@
     "test": "jest --passWithNoTests",
     "test:staged": "npm test -- --findRelatedTests --silent",
     "test:unit": "npm test -- -c jest.config.unit.js",
-    "test:integration": "npm test -- -c jest.config.integration.js",
+    "test:integration": "npm test -- -c jest.config.integration.js --detectOpenHandles",
     "dev:start": "clear; nodemon src/index.ts",
     "build": "tsc",
     "prod:start": "npm run build && node build/index.js"
